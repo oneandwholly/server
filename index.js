@@ -11,12 +11,14 @@ const cors = require('cors');
 const mysql = require('mysql');
 
 //DB Setup
-const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '9200',
-  database : 'my_db'
-});
+// const connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '9200',
+//   database : 'my_db'
+// });
+//
+// connection.connect();
 //CREATE TABLE users if you didnt
 //mongoose.connect('mongodb://localhost:auth/auth');
 
@@ -32,4 +34,4 @@ const server = http.createServer(app);
 server.listen(port);
 console.log('Server listening on:', port);
 
-exports.connection = connection;
+// exports.connection = connection;
