@@ -1,4 +1,5 @@
 const Authentication = require('./controllers/authentication');
+const Photos = require('./controllers/photos');
 const passportService = require('./services/passport');
 const passport = require('passport');
 
@@ -12,5 +13,6 @@ module.exports = function(app) {
   });
   app.post('/signin', requireSignin, Authentication.signin);
   app.post('/signup', Authentication.signup);
-  app.post('/sign', Authentication.sign);
+  app.post('/photo/upload', requireAuth, Photos.upload);
+  app.get('/photo/fetchAll', requireAuth, Photos.fetchAll);
 };

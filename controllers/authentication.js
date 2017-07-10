@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jwt-simple');
 const config = require('../config');
-const aws = require('../services/aws');
 
 
 function tokenForUser(user) {
@@ -10,6 +9,7 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
+  console.log('req.user in signin',req.user);
   res.send({ token: tokenForUser(req.user) });
 };
 
@@ -49,17 +49,3 @@ exports.signup = function(req, res, next) {
   });
 
 };
-
-exports.sign = function(req, res, next) {
-  console.log(req.body);
-  const resp = JSON.stringify({
-    policy: req.body,
-    signature: aws.signRequest(req.body)
-  });
-
-  res.writeHead(200, {
-    'Content-Length': resp.length,
-    'Content-Type': 'application/json; charset=utf-8'
-  });
-  res.end(resp);
-}
