@@ -36,4 +36,21 @@ class Comment {
   }
 }
 
+Comment.findByPhotoId = function(id, cb) {
+  console.log(id)
+  connection.query(`SELECT * FROM comments WHERE photo_id='${id}' ORDER BY created_at`, function(err, results) {
+    if (err) {
+      cb(err);
+      return;
+    }
+    console.log(results);
+  //  if (results.length) {
+      cb(null, results);
+      return;
+    //}
+    cb(null, false);
+  });
+
+}
+
 module.exports = Comment;

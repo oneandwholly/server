@@ -17,4 +17,5 @@ module.exports = function(app) {
   app.post('/photo/upload', requireAuth, Photos.upload);
   app.get('/photo/fetchAll', requireAuth, Photos.fetchAll);
   app.post('/comment/add', requireAuth, Comments.add);
+  app.get('/comment/fetch/:id', requireAuth, Comments.fetch);
 };

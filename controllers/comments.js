@@ -12,6 +12,22 @@ exports.add = function(req, res, next) {
     }
     res.writeHead(200);
     res.end();
-    next();
   });
+}
+
+exports.fetch = function(req, res, next) {
+  Comment.findByPhotoId(req.params.id, function(err, comments) {
+    if (err) { return next(err); }
+    if (comments) {
+      const resp = JSON.stringify(comments);
+
+      res.writeHead(200, {
+        'Content-Length': resp.length,
+        'Content-Type': 'application/json; charset=utf-8'
+      });
+      res.end(resp);
+    } else {
+      next();
+    }
+  })
 }
