@@ -26,28 +26,25 @@ class Photo {
 
   save(cb) {
     const photo = this;
-    console.log(`INSERT INTO photos (img_url, user_id) VALUES ('${photo.img_url}', '${photo.user_id}' )`);
     connection.query(`INSERT INTO photos (img_url, user_id) VALUES ('${photo.img_url}', '${photo.user_id}' )`,
       function(err, results) {
         if (err) throw err;
-        console.log(results);
         cb();
       });
   }
 }
 
 Photo.findByUserId = function(id, cb) {
-  connection.query(`SELECT * FROM photos WHERE user_id='${id}'`, function(err, results) {
-    console.log('results from findByUserId', results);
+  connection.query(`SELECT * FROM photos WHERE user_id='${id}' ORDER BY created_at DESC`, function(err, results) {
     if (err) {
       cb(err);
       return;
     }
     if (results.length) {
-      cb(undefined, results);
+      cb(null, results);
       return;
     }
-    cb(undefined, false);
+    cb(null, false);
   });
 
 }

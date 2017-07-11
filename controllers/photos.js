@@ -30,7 +30,6 @@ exports.fetchAll = function(req, res, next) {
 
   Photo.findByUserId(req.user.id, function(err, photos) {
     if (err) { return next(err); }
-
     if (photos) {
       const resp = JSON.stringify(photos);
 
@@ -43,6 +42,4 @@ exports.fetchAll = function(req, res, next) {
       next();
     }
   })
-
-  console.log(photos);
 }

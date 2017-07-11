@@ -50,7 +50,6 @@ class User {
               if (err) throw err;
               user.id = results[0].id;
             });
-            console.log(results);
             cb();
           });
       });

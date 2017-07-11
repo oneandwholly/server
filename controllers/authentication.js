@@ -9,7 +9,6 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
-  console.log('req.user in signin',req.user);
   res.send({ token: tokenForUser(req.user) });
 };
 
