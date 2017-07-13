@@ -1,5 +1,6 @@
 // CREATE TABLE users (
-//   id CHAR(36) NOT NULL PRIMARY KEY,
+//   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+//   username VARCHAR(255) NOT NULL UNIQUE,
 //   email VARCHAR(255) NOT NULL UNIQUE,
 //   password VARCHAR(255) NOT NULL,
 //   created_at TIMESTAMP DEFAULT NOW()
@@ -18,15 +19,16 @@ var connection = mysql.createConnection({
 connection.connect();
 
 class User {
-  constructor({id, email, password}) {
+  constructor({id, username, email, password}) {
     this.id = id;
+    this.username = username;
     this.email = email;
     this.password = password;
   }
 
   save(cb) {
     const user = this;
-
+    console.log('in save')
     // generate a salt
     bcrypt.genSalt(10, function(err, salt) {
       if (err) {
@@ -43,14 +45,14 @@ class User {
 
         // overwrite plain text password w/ encrypted password
         user.password = hash;
-        connection.query(`INSERT INTO users (id, email, password) VALUES (UUID(), '${user.email}', '${user.password}' )`,
+        connection.query(`INSERT INTO users (username, email, password) VALUES ('${user.username}', '${user.email}', '${user.password}' )`,
           function(err, results) {
             if (err) throw err;
-            connection.query(`SELECT id FROM users WHERE email='${user.email}'`, function (err, results) {
+            connection.query(`SELECT LAST_INSERT_ID() AS id`, function (err, results) {
               if (err) throw err;
               user.id = results[0].id;
+              cb();
             });
-            cb();
           });
       });
     });

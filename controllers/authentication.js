@@ -13,13 +13,15 @@ exports.signin = function(req, res, next) {
 };
 
 exports.signup = function(req, res, next) {
+  const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
 
-  if (!email || !password) {
-    return res.status(422).send({ error: 'You must provide email and password'});
+  if (!username || !email || !password) {
+    return res.status(422).send({ error: 'You must provide username, email and password'});
   }
 
+  //TODO: add a check for duplicate username
   // See if a user with the given email exists
   User.findOne({ email: email }, function(err, existingUser) {
     if (err) { return next(err); }
@@ -31,6 +33,7 @@ exports.signup = function(req, res, next) {
 
     // if a user with email does NOT exist, create and save record
     const user = new User({
+      username: username,
       email: email,
       password: password
     });
@@ -41,6 +44,7 @@ exports.signup = function(req, res, next) {
       }
 
       // Respond to request indicating the user was created
+      console.log(user);
       res.json({ token: tokenForUser(user) });
 
     });
