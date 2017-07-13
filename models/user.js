@@ -67,16 +67,16 @@ class User {
 }
 
 
-// See if a user with the given email exists
-User.findOne = function({ email }, cb) {
-  connection.query(`SELECT * FROM users WHERE email='${email}'`, function(err, results) {
+// See if a user with the username email exists
+User.findOne = function({ username }, cb) {
+  connection.query(`SELECT * FROM users WHERE username='${username}'`, function(err, results) {
     if (err) {
       cb(err);
       return;
     }
     if (results.length) {
-      const retrievedUser = results[0];
-      const user = new User({id: retrievedUser.id, email: retrievedUser.email, password: retrievedUser.password });
+      const { id, username, email, password } = results[0];
+      const user = new User({ id, username, email, password });
       cb(undefined, user);
       return;
     }

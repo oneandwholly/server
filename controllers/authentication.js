@@ -23,12 +23,12 @@ exports.signup = function(req, res, next) {
 
   //TODO: add a check for duplicate username
   // See if a user with the given email exists
-  User.findOne({ email: email }, function(err, existingUser) {
+  User.findOne({ username }, function(err, existingUser) {
     if (err) { return next(err); }
 
     // if a user with email does exist, return an Error
     if (existingUser) {
-      return res.status(422).send({ error: "Email is in use"});
+      return res.status(422).send({ error: "Username is in use"});
     }
 
     // if a user with email does NOT exist, create and save record
